@@ -2,7 +2,7 @@ using System;
 
 namespace shopping_cart
 {
-    public class Round
+    public static class Round
     {
         public static decimal RoundHalfUp(decimal value)
         {

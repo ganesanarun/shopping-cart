@@ -1,6 +1,6 @@
 namespace shopping_cart
 {
-    public struct Total
+    public readonly struct Total
     {
         public decimal SubTotal { get; }
         public decimal SalesTax { get; }
