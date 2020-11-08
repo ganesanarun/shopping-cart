@@ -6,10 +6,17 @@ namespace shopping_cart
 {
     public class Cart
     {
+        private readonly decimal taxRate;
         private readonly Dictionary<Product, LineItem> items;
 
         public Cart()
         {
+            items = new Dictionary<Product, LineItem>();
+        }
+
+        public Cart(double taxRate)
+        {
+            this.taxRate = (decimal) taxRate / 100;
             items = new Dictionary<Product, LineItem>();
         }
 
@@ -24,17 +31,23 @@ namespace shopping_cart
             items[item.Product].Add(item.Quantity);
         }
 
-        public decimal TotalPrice()
+        public Total TotalPrice()
         {
-            var totalPrice = items
+            var subTotal = items
                 .Select(lineItem => lineItem.Value.TotalPrice())
                 .Sum();
-            return RoundHalfUp(totalPrice);
+            var taxPrice = RoundHalfUp(Tax(taxRate, subTotal));
+            return new Total(subTotal, taxPrice, RoundHalfUp(subTotal + taxPrice));
         }
 
         public int Quantity(in Product item)
         {
             return items.ContainsKey(item) ? items[item].Quantity : 0;
+        }
+
+        private static decimal Tax(decimal taxRate, decimal price)
+        {
+            return price * taxRate;
         }
     }
 }
