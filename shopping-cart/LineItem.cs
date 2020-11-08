@@ -4,19 +4,24 @@ namespace shopping_cart
 {
     public class LineItem
     {
-        public int Quantity { get; }
+        public int Quantity { get; private set; }
 
         public Product Product { get; }
 
         public LineItem(int quantity, Product product)
         {
-            this.Quantity = quantity;
+            Quantity = quantity;
             Product = product;
         }
 
         public decimal TotalPrice()
         {
             return RoundHalfUp(Quantity * Product.UnitPrice);
+        }
+
+        public void Add(int quantity)
+        {
+            Quantity += quantity;
         }
     }
 }

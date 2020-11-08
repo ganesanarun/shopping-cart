@@ -15,7 +15,13 @@ namespace shopping_cart
 
         public void AddItem(LineItem item)
         {
-            items.Add(item.Product, item);
+            if (!items.ContainsKey(item.Product))
+            {
+                items.Add(item.Product, item);
+                return;
+            }
+
+            items[item.Product].Add(item.Quantity);
         }
 
         public decimal TotalPrice()
